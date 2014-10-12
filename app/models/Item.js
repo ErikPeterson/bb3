@@ -1,18 +1,24 @@
+// Base Item class, for controlling 3js objects within a scene
+
+
+
 var Backbone = require('backbone-lodash');
-var Three = require('n3d-threejs');
+var Three = require('three');
 var degToRadian = require('../support/degtoradian');
 
 var Item = Backbone.Model.extend({
   defaults:{
     scale: { x: 1, y: 1, z: 1 },
-    rotation: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0},
+    position: {x: 0, y: 0, z: 0}
   },
   initialize: function(options){
     this.once('sync', createThreeObj);
     this.on({
       'change:scale': scaleObj,
       'change:rotation': rotateObj
-    })
+      'change:position': translateObj
+    });
   },
   createThreeObj: function(){
     var model = this.get('model');
@@ -63,7 +69,24 @@ var Item = Backbone.Model.extend({
   },
   translateX: function(x){
     var position = this.get('position');
-        position.
+        position.x = x;
+
+    this.set('position', position);
+  },
+  translateY: function(y){
+    var position = this.get('position');
+        position.y = y;
+
+    this.set('position', position);
+  },
+  translateZ: function(z){
+    var position = this.get('position');
+        position.z = z;
+
+    this.set('position', position);
+  },
+  translateObj: function(){
+    this.obj.position.set(this.get('position'));
   }
 
 });
