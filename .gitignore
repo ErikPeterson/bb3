@@ -6,3 +6,4 @@ tmp
 coverage/
 .sass-cache
 node_modules
+dist/*
