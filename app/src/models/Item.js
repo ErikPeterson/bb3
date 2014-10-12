@@ -1,10 +1,8 @@
 // Base Item class, for controlling 3js objects within a scene
-
-
+'use strict';
 
 var Backbone = require('backbone-lodash');
 var Three = require('three');
-var degToRadian = require('../support/degtoradian');
 
 var Item = Backbone.Model.extend({
   defaults:{
@@ -12,12 +10,12 @@ var Item = Backbone.Model.extend({
     rotation: {x: 0, y: 0, z: 0},
     position: {x: 0, y: 0, z: 0}
   },
-  initialize: function(options){
-    this.once('sync', createThreeObj);
+  initialize: function(){
+    this.once('sync', 'createThreeObj');
     this.on({
-      'change:scale': scaleObj,
-      'change:rotation': rotateObj
-      'change:position': translateObj
+      'change:scale': 'scaleObj',
+      'change:rotation': 'rotateObj',
+      'change:position': 'translateObj'
     });
   },
   createThreeObj: function(){
@@ -28,8 +26,8 @@ var Item = Backbone.Model.extend({
     this.obj.scale.set(model.scale.x, model.scale.y, model.scale.z);
   },
   scaleBy: function(factor){
-    var scale = this.get('scale'),
-    this.set('scale',{scale.x * factor, scale.y * factor, scale.z * factor});
+    var scale = this.get('scale');
+    this.set('scale',{ x: scale.x * factor, y: scale.y * factor, z: scale.z * factor});
   },
   scaleObj: function(){
     var model = this.get('model');
